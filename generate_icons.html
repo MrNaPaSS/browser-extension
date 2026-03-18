@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head><title>Generate Icons</title></head>
+<body>
+<canvas id="c"></canvas>
+<script>
+function generateIcon(size) {
+  const canvas = document.getElementById('c');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  // Background gradient
+  const grad = ctx.createLinearGradient(0, 0, size, size);
+  grad.addColorStop(0, '#0a0a1a');
+  grad.addColorStop(1, '#1a0a2e');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.roundRect(0, 0, size, size, size * 0.18);
+  ctx.fill();
+
+  // Glow circle
+  const cx = size / 2, cy = size / 2;
+  const glowGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, size * 0.45);
+  glowGrad.addColorStop(0, 'rgba(0, 212, 255, 0.3)');
+  glowGrad.addColorStop(0.5, 'rgba(124, 58, 237, 0.15)');
+  glowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  ctx.fillStyle = glowGrad;
+  ctx.fillRect(0, 0, size, size);
+
+  // Brain/AI symbol - stylized neural node
+  const s = size / 128; // scale factor
+  ctx.strokeStyle = '#00d4ff';
+  ctx.lineWidth = Math.max(2 * s, 1);
+  ctx.shadowColor = '#00d4ff';
+  ctx.shadowBlur = 8 * s;
+
+  // Central hexagon
+  const r = 28 * s;
+  ctx.beginPath();
+  for (let i = 0; i < 6; i++) {
+    const angle = (Math.PI / 3) * i - Math.PI / 6;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.stroke();
+
+  // Inner fill
+  ctx.fillStyle = 'rgba(0, 212, 255, 0.1)';
+  ctx.fill();
+
+  // Neural connections
+  const nodes = [
+    { x: cx - 38 * s, y: cy - 30 * s },
+    { x: cx + 38 * s, y: cy - 30 * s },
+    { x: cx - 42 * s, y: cy + 15 * s },
+    { x: cx + 42 * s, y: cy + 15 * s },
+    { x: cx, y: cy - 45 * s },
+    { x: cx, y: cy + 42 * s },
+  ];
+
+  ctx.lineWidth = Math.max(1.5 * s, 0.8);
+  ctx.strokeStyle = 'rgba(124, 58, 237, 0.7)';
+  ctx.shadowColor = '#7c3aed';
+  ctx.shadowBlur = 4 * s;
+
+  nodes.forEach(n => {
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(n.x, n.y);
+    ctx.stroke();
+  });
+
+  // Outer dots
+  ctx.shadowColor = '#00d4ff';
+  ctx.shadowBlur = 6 * s;
+  nodes.forEach(n => {
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, 4 * s, 0, Math.PI * 2);
+    ctx.fillStyle = '#00d4ff';
+    ctx.fill();
+  });
+
+  // Center dot
+  ctx.beginPath();
+  ctx.arc(cx, cy, 6 * s, 0, Math.PI * 2);
+  ctx.fillStyle = '#fff';
+  ctx.shadowColor = '#00d4ff';
+  ctx.shadowBlur = 12 * s;
+  ctx.fill();
+
+  // Chart line at bottom
+  ctx.shadowBlur = 4 * s;
+  ctx.strokeStyle = '#00ff88';
+  ctx.shadowColor = '#00ff88';
+  ctx.lineWidth = Math.max(2 * s, 1);
+  ctx.beginPath();
+  const baseY = cy + 48 * s;
+  ctx.moveTo(cx - 40 * s, baseY + 5 * s);
+  ctx.lineTo(cx - 25 * s, baseY - 8 * s);
+  ctx.lineTo(cx - 10 * s, baseY + 3 * s);
+  ctx.lineTo(cx + 5 * s, baseY - 12 * s);
+  ctx.lineTo(cx + 20 * s, baseY - 6 * s);
+  ctx.lineTo(cx + 35 * s, baseY - 18 * s);
+  ctx.stroke();
+
+  return canvas.toDataURL('image/png');
+}
+
+[16, 48, 128].forEach(size => {
+  const dataUrl = generateIcon(size);
+  const link = document.createElement('a');
+  link.download = `icon${size}.png`;
+  link.href = dataUrl;
+  link.textContent = `Download ${size}x${size}`;
+  link.style.display = 'block';
+  link.style.margin = '10px';
+  link.style.color = '#00d4ff';
+  document.body.appendChild(link);
+
+  const img = document.createElement('img');
+  img.src = dataUrl;
+  img.style.margin = '10px';
+  img.style.border = '1px solid #333';
+  img.style.background = '#000';
+  document.body.appendChild(img);
+});
+</script>
+</body>
+</html>

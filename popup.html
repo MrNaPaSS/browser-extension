@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NMNH — Navigation & Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="nmnh-nav-container">
+
+    <!-- ── Header ── -->
+    <header class="nav-header">
+      <div class="nav-brand">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <div class="brand-info">
+          <span class="brand-title">NMNH</span>
+          <span class="brand-tagline" id="popupAsset">HUB · Searching...</span>
+        </div>
+      </div>
+      <div class="header-live-wrap">
+        <div class="status-indicator">
+          <div class="status-dot-pulse" id="globalStatusDot"></div>
+          <span id="globalStatusText">READY</span>
+        </div>
+        <div id="popupPrice">0.00</div>
+      </div>
+    </header>
+
+    <!-- ── Robot Master Control ── -->
+    <div class="master-control glass-card">
+      <div class="control-label">
+        <span class="main-label">Robot Engine</span>
+        <span class="sub-label" id="engineStatusDesc">Currently Inactive</span>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="masterRobotToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- ── Navigation Grid ── -->
+    <section class="nav-section">
+      <div class="nav-grid">
+        <button class="nav-item glass-card" id="navTerminal">
+          <div class="nav-icon">🖥️</div>
+          <span class="nav-text">Open Terminal</span>
+        </button>
+        <button class="nav-item glass-card" id="navDashboard">
+          <div class="nav-icon">📊</div>
+          <span class="nav-text">My Cabinet</span>
+        </button>
+        <button class="nav-item glass-card" id="navHistory">
+          <div class="nav-icon">📜</div>
+          <span class="nav-text">Trade History</span>
+        </button>
+        <button class="nav-item glass-card" id="navSupport">
+          <div class="nav-icon">✈️</div>
+          <span class="nav-text">Support</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ── Quick Config ── -->
+    <section class="config-section">
+      <div class="config-title">QUICK SETTINGS</div>
+      
+      <div class="config-row glass-card">
+        <span class="config-label">Active Strategy</span>
+        <select class="config-select" id="strategySelect">
+          <option value="hft-trend">HFT Trend Following</option>
+          <option value="mean-rev">Mean Reversion</option>
+          <option value="vola-break">Volatility Breakout</option>
+        </select>
+      </div>
+
+      <div class="config-row glass-card">
+        <span class="config-label">Risk Profile</span>
+        <div class="risk-segments" id="riskSegments">
+          <button class="risk-seg" data-risk="low">LOW</button>
+          <button class="risk-seg active" data-risk="med">MED</button>
+          <button class="risk-seg" data-risk="high">HIGH</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Footer Stats ── -->
+    <footer class="nav-footer">
+      <div class="footer-stat">
+        <span class="footer-lbl">BALANCE</span>
+        <span class="footer-val" id="footerBalance">$0.00</span>
+      </div>
+      <div class="footer-stat center">
+        <span class="footer-lbl">W / L</span>
+        <span class="footer-val blue" id="footerSessionWL">0 / 0</span>
+      </div>
+      <div class="footer-stat right">
+        <span class="footer-lbl">SESSION P&L</span>
+        <span class="footer-val pos" id="footerPnl">+$0.00</span>
+      </div>
+    </footer>
+
+    <button class="reset-link" id="btnResetSession">Reset Session</button>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

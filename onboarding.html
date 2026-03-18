@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NMNH Trading Robot — Welcome</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body class="onboarding-page">
+
+  <!-- Particle Background -->
+  <div class="particle-grid" id="particleGrid"></div>
+
+  <!-- Hero glow -->
+  <div style="
+    position: absolute;
+    top: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, hsla(210,100%,60%,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  "></div>
+
+  <!-- Main Content -->
+  <div class="onboarding-content">
+
+    <img src="icons/icon128.png" alt="NMNH Trading Robot" class="onboarding-logo">
+
+    <h1 class="onboarding-title">NMNH Trading<br>Robot</h1>
+
+    <p class="onboarding-subtitle">
+      Enterprise AI-powered signals, strategy management &amp; real-time risk analytics — built for serious traders.
+    </p>
+
+    <!-- Feature chips -->
+    <div class="features-grid">
+      <div class="feature-chip">
+        <span class="feature-chip-icon">🤖</span>
+        <span class="feature-chip-label">AI Signals</span>
+      </div>
+      <div class="feature-chip">
+        <span class="feature-chip-icon">📊</span>
+        <span class="feature-chip-label">Strategy Engine</span>
+      </div>
+      <div class="feature-chip">
+        <span class="feature-chip-icon">🛡️</span>
+        <span class="feature-chip-label">Risk Control</span>
+      </div>
+    </div>
+
+    <!-- Step indicator -->
+    <div class="step-indicator" aria-hidden="true">
+      <div class="step-dot"></div>
+      <div class="step-dot"></div>
+      <div class="step-dot"></div>
+    </div>
+
+    <button class="onboarding-start-btn" id="startBtn">
+      🚀 Start Analysis
+    </button>
+
+    <p class="onboarding-footer">
+      Works on PocketOption · po.trade · po.cash
+    </p>
+
+  </div>
+
+  <script src="config.js"></script>
+  <script src="onboarding.js"></script>
+</body>
+</html>
