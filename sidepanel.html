@@ -37,7 +37,10 @@
     body {
       width: 100%;
       height: 100vh;
-      background: radial-gradient(ellipse at 30% 15%, hsl(224,55%,13%) 0%, var(--bg-main) 65%);
+      background: 
+        radial-gradient(ellipse at 15% 0%, hsla(262, 83%, 25%, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 100%, hsla(210, 100%, 25%, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 30% 15%, hsl(224,55%,13%) 0%, var(--bg-main) 65%);
       color: var(--text-main);
       font-family: var(--font);
       display: flex;
@@ -72,7 +75,13 @@
     }
 
     .sp-brand-text { display: flex; flex-direction: column; }
-    .sp-name { font-size: 17px; font-weight: 900; letter-spacing: -0.3px; }
+    .sp-name { 
+      font-size: 17px; font-weight: 900; letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
     .sp-version { font-size: 8.5px; color: var(--text-xs); font-family: var(--font-data); letter-spacing: 0.3px; }
 
     .sp-live {
@@ -170,8 +179,13 @@
       padding: 18px 18px 16px;
       background: linear-gradient(135deg,
         hsla(210,100%,18%,0.70) 0%,
+        hsla(262,60%,18%,0.30) 50%,
         hsla(222,47%,13%,0.80) 100%);
       border: 1px solid hsla(210,100%,60%,0.16);
+      box-shadow: 
+        0 8px 32px rgba(0,0,0,0.4),
+        0 0 40px hsla(262,83%,67%,0.05),
+        inset 0 1px 0 hsla(210,100%,60%,0.08);
     }
 
     .pnl-label {
@@ -185,8 +199,11 @@
     .pnl-balance {
       font-size: 28px; font-weight: 900;
       letter-spacing: -0.6px;
-      color: var(--text-main);
       line-height: 1.1;
+      background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .pnl-change {
@@ -224,6 +241,13 @@
       padding: 12px 8px;
       text-align: center;
       display: flex; flex-direction: column; gap: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .stat-chip:hover {
+      background: hsla(222, 47%, 20%, 0.85);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
     }
 
     .chip-label {
@@ -376,81 +400,7 @@
     .sig-entry-label { font-size: 7.5px; font-weight: 700; color: var(--text-xs); letter-spacing: 0.5px; font-family: var(--font-data); }
     .sig-entry-val { font-size: 11px; font-weight: 600; color: var(--text-main); font-family: var(--font-data); }
 
-    /* ─── Strategy Cards ── */
-    .strat-card {
-      background: var(--bg-card);
-      border: 1px solid hsla(210,20%,100%,0.07);
-      border-radius: var(--radius-lg);
-      padding: 14px 16px;
-      display: flex; flex-direction: column; gap: 10px;
-    }
-
-    .strat-top {
-      display: flex; align-items: center; gap: 12px;
-    }
-
-    .strat-icon {
-      width: 36px; height: 36px;
-      background: hsla(210,100%,60%,0.08);
-      border: 1px solid hsla(210,100%,60%,0.15);
-      border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; flex-shrink: 0;
-    }
-
-    .strat-info { flex: 1; }
-    .strat-name { font-size: 13px; font-weight: 700; color: var(--text-main); }
-    .strat-desc { font-size: 10px; color: var(--text-dim); margin-top: 2px; font-family: var(--font-data); }
-
-    /* Toggle switch */
-    .toggle-wrap { flex-shrink: 0; }
-
-    .toggle {
-      position: relative;
-      width: 36px; height: 20px;
-      display: inline-block;
-    }
-
-    .toggle input { opacity: 0; width: 0; height: 0; }
-
-    .toggle-slider {
-      position: absolute; inset: 0;
-      background: hsla(210,20%,100%,0.12);
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    .toggle-slider::before {
-      content: '';
-      position: absolute;
-      width: 14px; height: 14px;
-      left: 3px; bottom: 3px;
-      background: #fff;
-      border-radius: 50%;
-      transition: transform 0.2s ease;
-    }
-
-    .toggle input:checked + .toggle-slider {
-      background: var(--accent-buy);
-    }
-
-    .toggle input:checked + .toggle-slider::before {
-      transform: translateX(16px);
-    }
-
-    /* Win rate bar */
-    .strat-stats {
-      display: flex; align-items: center; gap: 10px;
-    }
-
-    .strat-stat { display: flex; flex-direction: column; gap: 2px; width: 48px; }
-    .strat-stat-label { font-size: 7.5px; font-weight: 700; color: var(--text-xs); letter-spacing: 0.5px; font-family: var(--font-data); }
-    .strat-stat-val { font-size: 12px; font-weight: 800; color: var(--text-main); font-family: var(--font-data); }
-
-    .strat-bar-wrap { flex: 1; height: 4px; background: hsla(210,20%,100%,0.07); border-radius: 2px; overflow: hidden; }
-    .strat-bar-fill { height: 100%; border-radius: 2px; background: var(--accent-primary); width: 0%; transition: width 0.9s cubic-bezier(0.22,1,0.36,1); }
-    .strat-bar-pct { font-size: 10px; font-weight: 700; color: var(--accent-primary); font-family: var(--font-data); }
+    /* ─── (Strategies removed) ── */
 
     /* ─── Action Buttons ── */
     .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -467,12 +417,20 @@
     }
 
     .sp-btn-primary {
-      background: var(--accent-buy);
-      color: #032015;
-      box-shadow: 0 4px 18px hsla(145,63%,46%,0.28);
+      background: linear-gradient(135deg, hsl(145, 70%, 42%) 0%, hsl(160, 70%, 38%) 50%, hsl(145, 63%, 46%) 100%);
+      color: #fff;
+      box-shadow: 
+        0 4px 18px hsla(145,63%,46%,0.28),
+        inset 0 1px 0 hsla(0,0%,100%,0.15);
+      font-weight: 800;
+      letter-spacing: 0.5px;
     }
 
-    .sp-btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .sp-btn-primary:hover { 
+      filter: brightness(1.08); 
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px hsla(145,63%,46%,0.4), inset 0 1px 0 hsla(0,0%,100%,0.2);
+    }
     .sp-btn-primary.active { background: var(--accent-sell); color: #fff; box-shadow: 0 4px 18px hsla(0,72%,57%,0.28); }
 
     .sp-btn-secondary {
@@ -501,7 +459,7 @@
       </div>
       <div class="sp-brand-text">
         <span class="sp-name">NMNH</span>
-        <span class="sp-version">Enterprise v2.1.0</span>
+        <span class="sp-version">v2.1.0 · NMNH</span>
       </div>
     </div>
     <div class="sp-live" id="spLiveBadge">
@@ -514,7 +472,6 @@
   <nav class="sp-tabs" role="tablist">
     <button class="sp-tab active" data-tab="overview"    role="tab" aria-selected="true">OVERVIEW</button>
     <button class="sp-tab"        data-tab="signals"     role="tab" aria-selected="false">SIGNALS</button>
-    <button class="sp-tab"        data-tab="strategies"  role="tab" aria-selected="false">STRATEGIES</button>
   </nav>
 
   <!-- Panel Content -->
@@ -602,12 +559,6 @@
       <span class="sp-section-title">AI TRADE SIGNALS</span>
       <div id="spSignalsList" style="display:flex;flex-direction:column;gap:10px;"></div>
 
-    </div>
-
-    <!-- ── Strategies Panel ── -->
-    <div class="sp-panel" id="panel-strategies" role="tabpanel">
-      <span class="sp-section-title">STRATEGY ENGINE</span>
-      <div id="spStrategiesList" style="display:flex;flex-direction:column;gap:10px;"></div>
     </div>
 
   </div>

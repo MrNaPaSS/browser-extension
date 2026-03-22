@@ -52,7 +52,11 @@ wss.on('connection', (ws) => {
       if (msg.type === 'GET_SIGNAL') {
         handleExtensionRequest(ws, msg);
       }
-      // 2. Request from Agent (e.g. GET_CONTEXT, EXECUTE_TRADE)
+      // 2. Request from Extension: Academy Verification
+      else if (msg.type === 'VERIFY_ACADEMY_USER') {
+        handleVerificationRequest(ws, msg);
+      }
+      // 3. Request from Agent (e.g. GET_CONTEXT, EXECUTE_TRADE)
       else if (msg.type === 'GET_CONTEXT' || msg.type === 'EXECUTE_TRADE') {
         handleAgentRequest(ws, msg);
       }
@@ -112,6 +116,57 @@ async function handleAgentRequest(ws, msg) {
     ws.send(JSON.stringify({ id: msg.id, data }));
   } catch (err) {
     ws.send(JSON.stringify({ id: msg.id, error: err.message }));
+  }
+}
+
+async function handleVerificationRequest(ws, msg) {
+  const fs = require('fs');
+  const path = require('path');
+  const usersPath = path.join(__dirname, '..', 'InfoBot_Standalone', 'info_bot_users.json');
+  
+  console.log(`[SENTINEL] Verification Request: ${msg.payload.identifier}`);
+  
+  try {
+    if (!fs.existsSync(usersPath)) {
+      ws.send(JSON.stringify({ id: msg.id, data: { authorized: false, reason: 'DATABASE_NOT_FOUND' } }));
+      return;
+    }
+
+    const usersData = JSON.parse(fs.readFileSync(usersPath, 'utf8'));
+    const identifier = String(msg.payload.identifier).toLowerCase();
+    
+    let foundUser = null;
+    
+    // Check by ID (key)
+    if (usersData[identifier]) {
+      foundUser = usersData[identifier];
+    } else {
+      // Check by username
+      for (const userId in usersData) {
+        if (usersData[userId].username && String(usersData[userId].username).toLowerCase() === identifier) {
+          foundUser = usersData[userId];
+          break;
+        }
+      }
+    }
+
+    if (foundUser) {
+      const isVerified = foundUser.verified === true;
+      ws.send(JSON.stringify({ 
+        id: msg.id, 
+        data: { 
+          authorized: isVerified, 
+          username: foundUser.username,
+          userId: foundUser.user_id || foundUser.id,
+          reason: isVerified ? 'SUCCESS' : 'PENDING_APPROVAL'
+        } 
+      }));
+    } else {
+      ws.send(JSON.stringify({ id: msg.id, data: { authorized: false, reason: 'USER_NOT_FOUND' } }));
+    }
+  } catch (err) {
+    console.error('[SENTINEL] Verification Error:', err);
+    ws.send(JSON.stringify({ id: msg.id, error: 'Internal Server Error during verification' }));
   }
 }
 

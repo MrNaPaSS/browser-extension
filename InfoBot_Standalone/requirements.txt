@@ -1,0 +1,9 @@
+# InfoBot - Telegram бот для управления доступом к сигналам
+# Основные библиотеки
+python-telegram-bot>=21.0
+requests>=2.31.0
+APScheduler>=3.10.0
+
+# Утилиты
+python-dateutil>=2.8.0
+pytz>=2023.3

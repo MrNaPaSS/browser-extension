@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "NMNH Trading Robot",
-  "version": "2.1.0",
+  "version": "2.1.3",
   "description": "Enterprise AI-powered trading assistant for PocketOption. Real-time signals, strategy management & risk analytics.",
   "permissions": [
     "storage",
@@ -45,5 +45,14 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["tv-widget.html"],
+      "matches": ["*://*.pocketoption.com/*", "*://*.po.trade/*", "*://*.po.cash/*"]
+    }
+  ],
+  "content_security_policy": {
+    "sandbox": "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' https://s3.tradingview.com"
   }
 }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { background: transparent; overflow: hidden; }
+    .tradingview-widget-container { width: 100%; height: 100vh; }
+    .tradingview-widget-copyright { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+    {
+      "colorTheme": "dark",
+      "displayMode": "single",
+      "isTransparent": true,
+      "locale": "ru",
+      "interval": "1m",
+      "disableInterval": false,
+      "width": "100%",
+      "height": "100%",
+      "symbol": "OANDA:EURUSD",
+      "showIntervalTabs": true
+    }
+    </script>
+  </div>
+  <script>
+    // Listen for symbol changes from parent
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'SET_SYMBOL') {
+        // Reload with new symbol
+        const url = new URL(window.location.href);
+        url.searchParams.set('symbol', e.data.symbol);
+        window.location.href = url.toString();
+      }
+    });
+
+    // On load, check URL params for symbol
+    const params = new URLSearchParams(window.location.search);
+    const symbol = params.get('symbol');
+    if (symbol) {
+      const container = document.querySelector('.tradingview-widget-container');
+      container.innerHTML = `
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+        {
+          "colorTheme": "dark",
+          "displayMode": "single",
+          "isTransparent": true,
+          "locale": "ru",
+          "interval": "1m",
+          "disableInterval": false,
+          "width": "100%",
+          "height": "100%",
+          "symbol": "${symbol}",
+          "showIntervalTabs": true
+        }
+        <\/script>
+      `;
+    }
+  </script>
+</body>
+</html>

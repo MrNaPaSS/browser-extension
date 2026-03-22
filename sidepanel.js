@@ -30,12 +30,7 @@ const SP_SIGNALS = [
   },
 ];
 
-const SP_STRATEGIES = [
-  { icon: '📈', name: 'HFT Trend Following',   desc: 'Momentum-based high-frequency execution',   winRate: 81, trades: 312, active: true  },
-  { icon: '📊', name: 'Mean Reversion',         desc: 'Statistical price mean-reversion entries',  winRate: 74, trades: 198, active: false },
-  { icon: '⚡', name: 'Volatility Breakout',    desc: 'Range expansion & breakout signals',        winRate: 68, trades: 154, active: true  },
-  { icon: '🎯', name: 'HFT Prospect',           desc: 'Short-duration scalping opportunities',     winRate: 77, trades: 267, active: true  },
-];
+/* Strategies section removed */
 
 /* Sparkline data (mock daily balance) */
 const SPARKLINE_DATA = [5100, 5220, 5185, 5360, 5290, 5480, 5440, 5620, 5580, 5750, 5700, 5824];
@@ -46,9 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
   renderPositions();
   drawSparkline();
   renderSignals();
-  renderStrategies();
   initActionButtons();
   syncBackground();
+
+  chrome.runtime.onMessage.addListener((msg) => {
+    if (msg.type === 'SESSION_UPDATE') {
+      applyState({ ...msg.payload, tradesCount: (msg.payload.wins + msg.payload.losses), winRate: (msg.payload.wins + msg.payload.losses) > 0 ? (msg.payload.wins / (msg.payload.wins + msg.payload.losses)) * 100 : 0 });
+    }
+  });
 });
 
 /* ─── Tab Switching ─────────────────────────────── */
@@ -73,10 +73,7 @@ function initTabs() {
         setTimeout(animateSignalBars, 120);
       }
 
-      // Animate strategy bars when switching to strategies tab
-      if (target === 'strategies') {
-        setTimeout(animateStrategyBars, 80);
-      }
+      /* strategies tab removed */
     });
   });
 }
@@ -217,56 +214,6 @@ function renderSignals() {
 
 function animateSignalBars() {
   document.querySelectorAll('#spSignalsList .sig-conf-fill').forEach(el => {
-    el.style.width = el.dataset.target + '%';
-  });
-}
-
-/* ─── Strategy Cards ────────────────────────────── */
-function renderStrategies() {
-  const container = document.getElementById('spStrategiesList');
-  if (!container) return;
-
-  SP_STRATEGIES.forEach((s, idx) => {
-    const div = document.createElement('div');
-    div.className = 'strat-card';
-    div.innerHTML = `
-      <div class="strat-top">
-        <div class="strat-icon">${s.icon}</div>
-        <div class="strat-info">
-          <div class="strat-name">${s.name}</div>
-          <div class="strat-desc">${s.desc}</div>
-        </div>
-        <div class="toggle-wrap">
-          <label class="toggle" aria-label="Toggle ${s.name}">
-            <input type="checkbox" ${s.active ? 'checked' : ''} data-idx="${idx}">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-      <div class="strat-stats">
-        <div class="strat-stat">
-          <span class="strat-stat-label">WIN RATE</span>
-          <span class="strat-stat-val">${s.winRate}%</span>
-        </div>
-        <div class="strat-stat">
-          <span class="strat-stat-label">TRADES</span>
-          <span class="strat-stat-val">${s.trades}</span>
-        </div>
-        <div class="strat-bar-wrap">
-          <div class="strat-bar-fill" data-target="${s.winRate}"></div>
-        </div>
-        <span class="strat-bar-pct">${s.winRate}%</span>
-      </div>
-    `;
-    container.appendChild(div);
-  });
-
-  // Animate on load (overview is visible first, so trigger immediately)
-  requestAnimationFrame(() => setTimeout(animateStrategyBars, 200));
-}
-
-function animateStrategyBars() {
-  document.querySelectorAll('#spStrategiesList .strat-bar-fill').forEach(el => {
     el.style.width = el.dataset.target + '%';
   });
 }

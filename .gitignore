@@ -11,3 +11,8 @@ dist/
 # Scratch
 /tmp/
 *.bak
+__pycache__/
+*.pyc
+*.pyo
+"how b9eb0e4*"
+/InfoBot_Standalone/__pycache__/
